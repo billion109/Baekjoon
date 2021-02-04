@@ -1,3 +1,5 @@
-x = int(input())
+import sys
+input = sys.stdin.readline
+from collections import deque
 
-print(type(bin(x)[2:]))
+print('hello')
