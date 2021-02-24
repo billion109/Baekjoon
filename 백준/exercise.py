@@ -30,3 +30,6 @@ print(temp[0])
 
 arr  = [1,2,3,4,5,6,7]
 print(arr[0:3]+arr[4:])
+
+print("df")
+print("df".split())
