@@ -33,3 +33,14 @@ print(arr[0:3]+arr[4:])
 
 print("df")
 print("df".split())
+
+def DFS(ans):
+    ans.append(3)
+    return
+ans = [1]
+DFS(ans)
+print(ans)
+
+aa = []
+for i in aa:
+    print(i)
