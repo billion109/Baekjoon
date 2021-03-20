@@ -9,7 +9,6 @@ def solution(program, flag_rules, commands):
 
     # 커맨드별 판별 루프
     for command in commands:
-        print(command)
         command_list = command.split()
 
         # 조건1. program 으로 시작
@@ -33,6 +32,7 @@ def solution(program, flag_rules, commands):
                 if temp_length == len(flag_set):
                     flag = False
 
+                # flag_type의 case를 구분하여 실행
                 flag_type_temp = flag_type[command_list[index]]
                 if flag_type_temp == "STRING":
                     if not command_list[index + 1].isalpha():
@@ -100,3 +100,11 @@ def solution(program, flag_rules, commands):
         answer.append(True)
 
     return answer
+
+if __name__ == "__main__":
+    program = ["line", "trip"]
+    flag_rules = [["-s STRINGS", "-n NUMBERS", "-e NULL"], ["-days NUMBERS", "-dest STRING"]]
+    commands = [["line -n 100 102 -s hi -e", "line -n id pwd -n 100"],
+                ["trip -days 15 10 -dest Seoul Paris", "trip -days 10 -dest Seoul"]]
+    for i in range(len(program)):
+        print(solution(program[i], flag_rules[i], commands[i]))

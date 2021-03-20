@@ -9,7 +9,6 @@ def solution(program, flag_rules, commands):
 
     # 커맨드별 판별 루프
     for command in commands:
-        print(command)
         command_list = command.split()
 
         # 조건1. program 으로 시작
@@ -24,7 +23,7 @@ def solution(program, flag_rules, commands):
         # 조건을 만족못하면 flag를 False로 처리하고 루프종료
         flag = True
         try:
-            # Command_list 루프 시작
+            # command _list 루프 시작
             while index < len(command_list) and flag:
 
                 # flag 가 중복해서 나오는 경우
@@ -33,6 +32,7 @@ def solution(program, flag_rules, commands):
                 if temp_length == len(flag_set):
                     flag = False
 
+                # flag_type의 case를 구분하여 실행
                 flag_type_temp = flag_type[command_list[index]]
                 if flag_type_temp == "STRING":
                     if not command_list[index + 1].isalpha():
@@ -48,38 +48,6 @@ def solution(program, flag_rules, commands):
                         if not (command_list[index + 1] in flag_type.keys()):
                             flag = False
                     index += 1
-
-                elif flag_type_temp == "NUMBERS":
-                    # flag argument 가 1개이상 오지 않는경우
-                    if not command_list[index + 1].isdigit():
-                        flag = False
-                        continue
-
-                    while index + 1 < len(command_list):
-                        index += 1
-                        if command_list[index].isdigit():
-                            continue
-                        else:
-                            # 다음에 오는 flag가 flag_dict에 있는지 확인
-                            if not (command_list[index] in flag_type.keys()):
-                                flag = False
-                            break
-
-                elif flag_type_temp == "STRINGS":
-                    # flag argument 가 1개이상 오지 않는경우
-                    if not command_list[index + 1].isalpha():
-                        flag = False
-                        continue
-
-                    while index + 1 < len(command_list):
-                        index += 1
-                        if command_list[index].isalpha():
-                            continue
-                        else:
-                            # 다음에 오는 flag가 flag_dict에 있는지 확인
-                            if not (command_list[index] in flag_type.keys()):
-                                flag = False
-                            break
 
             # 조건을 만족못해 중간에 멈춘경우
             if not flag:
@@ -100,3 +68,10 @@ def solution(program, flag_rules, commands):
         answer.append(True)
 
     return answer
+
+if __name__ == "__main__":
+    program = ["line", "line"]
+    flag_rules = [["-s STRING", "-n NUMBER", "-e NULL"], ["-s STRING", "-n NUMBER", "-e NULL"]]
+    commands = [["line -n 100 -s hi -e", "lien -s Bye"], ["line -s 123 -n HI", "line fun"]]
+    for i in range(len(program)):
+        print(solution(program[i], flag_rules[i], commands[i]))
