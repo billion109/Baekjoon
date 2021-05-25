@@ -1,3 +1,5 @@
-index = 4
-for i in range(index, 0, -1):
-    print(i)
+arr1 = []
+arr2 = [143,234,24]
+
+arr1+=arr2
+print(arr1)

@@ -1,41 +1,48 @@
-import sys, copy
+import sys
+from collections import deque, defaultdict
+
 input = sys.stdin.readline
-from collections import deque
 
-# 이거 내부치즈는 공기취급안해야하는데 그걸못봤네
 if __name__ == "__main__":
-    N, M = map(int, input().split())
-    board = []
+    n, m = map(int, input().split())
+    arr = [list(map(int, input().split())) for _ in range(n)]
+    dx = [0, 0, -1, 1]
+    dy = [-1, 1, 0, 0]
+
     ans = 0
-    dx = [1, -1, 0, 0]
-    dy = [0, 0, 1, -1]
-    q = deque()
-    for i in range(N):
-        temp = list(map(int, input().split()))
-        for j in range(M):
-            if temp[j] == 1:
-                q.append([i, j])
-        board.append(temp)
+    while True:
+        outer_cheese = []
+        outer_air = defaultdict(int)
+        q = deque()
+        q.append([0, 0])
+        check = [[True] * m for _ in range(n)]
+        check[0][0] = False
+        while q:
+            x, y = q.popleft()
+            outer_air[str(x) + "_" + str(y)] += 1
+            for i in range(4):
+                new_x = x + dx[i]
+                new_y = y + dy[i]
+                if 0 <= new_x < n and 0 <= new_y < m and arr[new_x][new_y] == 0 and check[new_x][new_y]:
+                    check[new_x][new_y] = False
+                    q.append([new_x, new_y])
 
-    temp = deque()
-    new_board = copy.deepcopy(board)
-    while q:
-        x, y = q.popleft()
-        cnt = 0
-        for i in range(4):
-            new_x = x + dx[i]
-            new_y = y + dy[i]
-            if board[new_x][new_y] == 0:
-                cnt += 1
-        if cnt >= 2:
-            new_board[x][y] = 0
-        else:
-            temp.append([x, y])
+                if 0 <= new_x < n and 0 <= new_y < m and arr[new_x][new_y] == 1 and check[new_x][new_y]:
+                    check[new_x][new_y] = False
+                    outer_cheese.append([new_x, new_y])
 
-        if not q:
-            ans += 1
-            q = temp
-            temp = deque()
-            board = copy.deepcopy(new_board)
+        if not outer_cheese:
+            break
+        ans +=1
 
+        for x, y in outer_cheese:
+            cnt = 0
+            for i in range(4):
+                new_x = x + dx[i]
+                new_y = y + dy[i]
+                if 0 <= new_x < n and 0 <= new_y < m:
+                    if outer_air[str(new_x) + "_" + str(new_y)] > 0:
+                        cnt += 1
+            if cnt > 1:
+                arr[x][y] = 0
     print(ans)
